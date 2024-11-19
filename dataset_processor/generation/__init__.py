@@ -1,4 +1,4 @@
 from .base import BaseRAGGenerator
-from .naive_gpt_generator import RAGGeneratorOpenAI
+from .naive_openai_generator import RAGGeneratorOpenAI
 
 __all__ = ["BaseRAGGenerator", "RAGGeneratorOpenAI"]

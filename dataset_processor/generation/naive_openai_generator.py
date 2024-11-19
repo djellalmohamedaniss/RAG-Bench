@@ -3,7 +3,7 @@ import os
 
 from openai import OpenAI
 
-from dataset_processor.generation import BaseRAGGenerator
+from generation import BaseRAGGenerator
 
 
 class RAGGeneratorOpenAI(BaseRAGGenerator):
@@ -11,15 +11,15 @@ class RAGGeneratorOpenAI(BaseRAGGenerator):
     Implementation of RAG system using OpenAI API.
     """
 
-    def __init__(self, api_key: str) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.api_key = api_key
         self.client = self._initialize_client()
 
     def _initialize_client(self):
         """
         Initialize the OpenAI client.
         """
+        self.api_key = os.environ.get("OPENAI_API_KEY")
         return OpenAI(api_key=self.api_key)
 
     def generate_questions(self, context: str, num_generations: int) -> dict:
@@ -82,5 +82,10 @@ class RAGGeneratorOpenAI(BaseRAGGenerator):
                 ],
                 model="gpt-4o-mini",
             )
-            answers.append(response.choices[0].message.content.strip())
+            answers.append(
+                {
+                    "question": question,
+                    "answer": response.choices[0].message.content.strip(),
+                }
+            )
         return answers

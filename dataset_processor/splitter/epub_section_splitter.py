@@ -1,7 +1,16 @@
+import warnings
+
 import ebooklib
 from bs4 import BeautifulSoup
 from ebooklib import epub
 from splitter import BaseSplitter
+
+# supress ignore_ncx
+
+warnings.filterwarnings(
+    "ignore",
+    message="In the future version we will turn default option ignore_ncx to True.",
+)
 
 
 class EPubSectionSplitter(BaseSplitter):
